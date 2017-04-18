@@ -39,7 +39,9 @@ function filterFunction(req, file, cb) {
 
 // Configure POST-Route for Knowledge Upload
 _.post('/upload-knowledge', upload.single('datei'), async (ctx, next) => {
-  let parsedXML = await xmlParser.parseFile(ctx.req.file.path);
+  console.log("Before await");
+  let parsedXML = await JSON.stringify(xmlParser.parseFile(ctx.req.file.path));
+  console.log("After await\n", parsedXML)
   //console.log(JSON.stringify(parsedXML));
 
   //var parsedXML = await xmlParser.parseFile(ctx.req.file.path);
