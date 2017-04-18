@@ -1,0 +1,30 @@
+{
+  "name": "bm_generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g0rd0nbl3u/bm_generator.git"
+  },
+  "author": "Florian Braun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/g0rd0nbl3u/bm_generator/issues"
+  },
+  "homepage": "https://github.com/g0rd0nbl3u/bm_generator#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "fs-promise": "^2.0.2",
+    "koa": "^2.2.0",
+    "koa-mongo": "^0.7.0",
+    "koa-multer": "^1.0.1",
+    "koa-router": "^7.1.1",
+    "os": "^0.1.1",
+    "path": "^0.12.7",
+    "xml2js": "^0.4.17"
+  }
+}
