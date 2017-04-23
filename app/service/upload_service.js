@@ -1,5 +1,12 @@
 // Load libraries
-const xml2js = require('xml2js');
+const xml2js    = require('xml2js');
+const parser    = new xml2js.Parser({
+    attrkey: 'attribute',
+    explicitArray: false,
+    normalizeTags: true,
+    trim: false,
+    mergeAttrs: false
+});
 
 module.exports = {
     /**
@@ -11,12 +18,12 @@ module.exports = {
      */
     async xml2json(xml) {
         return new Promise((resolve, reject) => {
-            xml2js.parseString(xml, function (err, json) {
+            parser.parseString(xml, function (err, json) {
                 if (err)
                     reject(err);
                 else
-                    resolve(json);
-            });
-        });
+                    resolve(json)
+            })
+        })
     }
 };

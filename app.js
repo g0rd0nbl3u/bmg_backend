@@ -5,25 +5,19 @@ const body = require('koa-better-body');
 const error = require('koa-json-error');
 const cors = require('kcors');
 const path = require('path');
-const mongo = require('koa-mongo');
-
-// Setup
-const router = module.exports.router = require('koa-router')();
-
-// Load api
-const upload_api = require('./app/api/upload_api');
 
 // Setup app and make it available to other modules that import app.js
 const app = module.exports.app = new koa();
 
-// Setup mongo
-app.use(mongo({
-    host: 'localhost',
-    port: 27017,
-    db: 'bmg',
-    max: 100,
-    min: 1
-}));
+
+// Setup
+const router = module.exports.router = require('koa-router')();
+const db = module.exports.db = require('monk')('localhost/bmg');
+
+// Load api
+const upload_api = require('./app/api/upload_api');
+const block_manage_api = require('./app/api/block_manage_api');
+const knowledge_manage_api = require('./app/api/knowledge_manage_api');
 
 // Setup app's middleware
 app
@@ -48,7 +42,16 @@ app
 // Setup routes
 router
     .post('upload.knowledge', '/upload/knowledge', upload_api.uploadKnowledge)
-    .post('upload.product', '/upload/product', upload_api.uploadProduct);
+    .post('upload.product', '/upload/product', upload_api.uploadProduct)
+    .get('knowledge_manage.getAll', '/knowledge/getAll', knowledge_manage_api.getAllKnowledge)
+    .get('knowledge_manage.getIds', '/knowledge/getIds', knowledge_manage_api.getKnowledgeIds)
+    .get('knowledge_manage.get', '/knowledge/get/:id', knowledge_manage_api.getSingleKnowledge)
+    .del('knowledge_manage.delete', '/knowledge/delete/:id', knowledge_manage_api.deleteKnowledge)
+    .post('block_manage.add', '/block/add', block_manage_api.addBlock)
+    .get('block_manage.get', '/block/get/:id', block_manage_api.getBlock)
+    .put('block_manage.update', '/block/update/:id', block_manage_api.updateBlock)
+    .del('block_manage.delete', '/block/delete/:id', block_manage_api.deleteBlock)
+    .get('block_manage.getAll', '/block/getAll', block_manage_api.getAllBlocks);
 
 app.listen(process.env.PORT || 3000);
 
