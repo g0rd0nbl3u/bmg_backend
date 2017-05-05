@@ -12,17 +12,18 @@ const product       = app.db.get('product');
  */
 
 module.exports.uploadKnowledge = async ctx => {
+    console.log(ctx.request.files[0]);
     if (!ctx.request.files) {
         ctx.throw(422, 'no file provided');
     }
-    if (ctx.request.files[0].type === 'application/xml') {
+    if (ctx.request.files[0].type === 'application/xml' || ctx.request.files[0].type === 'text/xml') {
         try {
             const file = await fs.readFile(ctx.request.files[0].path);
             let parsedJSON = ctx.body = await UploadService.xml2json(file);
-            parsedJSON = [prepareForStoring(parsedJSON.node)];
+            parsedJSON = [prepareKnowledgeForStoring(parsedJSON.node)];
             //console.log(JSON.stringify(parsedJSON,null,2));
-            ctx.body = parsedJSON;
             await knowledge.insert(parsedJSON);
+            ctx.body = {sucess:true};
             ctx.status = 201;
         }
         catch (err) {
@@ -34,12 +35,13 @@ module.exports.uploadKnowledge = async ctx => {
 };
 
 module.exports.uploadProduct = async ctx => {
-    if (ctx.request.files[0].type === 'application/xml') {
+    if (ctx.request.files[0].type === 'application/xml' || ctx.request.files[0].type === 'text/xml') {
         try {
             const file = await fs.readFile(ctx.request.files[0].path);
             let parsedJSON = ctx.body = await UploadService.xml2json(file);
-            ctx.body = parsedJSON;
+            parsedJSON = [prepareProductForStoring(parsedJSON.node)];
             await product.insert(parsedJSON);
+            ctx.body = parsedJSON;
             ctx.status = 201;
         }
         catch (err) {
@@ -50,17 +52,33 @@ module.exports.uploadProduct = async ctx => {
     }
 };
 
-function prepareForStoring(mo) {
+function prepareKnowledgeForStoring(mo) {
   mo.id = mo.attr.id;
   mo.name = mo.attr.name;
   delete mo.attr;
-  //mo.isExpanded = true;
+  //mo.expanded = true;
   mo.children = mo.node;
   delete mo.node;
   if (mo.children) {
     mo.children.forEach(function (key) {
-        prepareForStoring(key);
+        prepareKnowledgeForStoring(key);
     });
   }
   return mo;
+}
+
+function prepareProductForStoring(mo) {
+    mo.id = mo.attr.id;
+    mo.key = mo.attr.key;
+    mo.value = mo.attr.value;
+    delete mo.attr;
+    //mo.expanded = true;
+    mo.children = mo.node;
+    delete mo.node;
+    if (mo.children) {
+        mo.children.forEach(function (key) {
+            prepareProductForStoring(key);
+        });
+    }
+    return mo;
 }
