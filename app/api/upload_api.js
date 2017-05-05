@@ -18,9 +18,11 @@ module.exports.uploadKnowledge = async ctx => {
     if (ctx.request.files[0].type === 'application/xml') {
         try {
             const file = await fs.readFile(ctx.request.files[0].path);
-            let parsedXML = ctx.body = await UploadService.xml2json(file);
-            ctx.body = parsedXML;
-            await knowledge.insert(parsedXML);
+            let parsedJSON = ctx.body = await UploadService.xml2json(file);
+            parsedJSON = [prepareForStoring(parsedJSON.node)];
+            //console.log(JSON.stringify(parsedJSON,null,2));
+            ctx.body = parsedJSON;
+            await knowledge.insert(parsedJSON);
             ctx.status = 201;
         }
         catch (err) {
@@ -35,9 +37,9 @@ module.exports.uploadProduct = async ctx => {
     if (ctx.request.files[0].type === 'application/xml') {
         try {
             const file = await fs.readFile(ctx.request.files[0].path);
-            let parsedXML = ctx.body = await UploadService.xml2json(file);
-            ctx.body = parsedXML;
-            await product.insert(parsedXML);
+            let parsedJSON = ctx.body = await UploadService.xml2json(file);
+            ctx.body = parsedJSON;
+            await product.insert(parsedJSON);
             ctx.status = 201;
         }
         catch (err) {
@@ -47,3 +49,17 @@ module.exports.uploadProduct = async ctx => {
         ctx.throw(422, 'File type should be application/xml')
     }
 };
+
+function prepareForStoring(mo) {
+  mo.id = mo.attr.id;
+  mo.name = mo.attr.name;
+  delete mo.attr;
+  mo.children = mo.node;
+  delete mo.node;
+  if (mo.children) {
+    mo.children.forEach(function (key) {
+        prepareForStoring(key);
+    });
+  }
+  return mo;
+}
