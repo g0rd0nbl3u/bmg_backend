@@ -54,6 +54,7 @@ function prepareForStoring(mo) {
   mo.id = mo.attr.id;
   mo.name = mo.attr.name;
   delete mo.attr;
+  //mo.isExpanded = true;
   mo.children = mo.node;
   delete mo.node;
   if (mo.children) {

@@ -1,10 +1,3 @@
-
-let attrNameProcessor = name => {
-    //do something with `name`
-    console.log(name);
-    return "fuckyou"
-}
-
 // Load libraries
 const xml2js    = require('xml2js');
 const parser    = new xml2js.Parser({
