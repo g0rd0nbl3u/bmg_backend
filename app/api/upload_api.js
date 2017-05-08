@@ -41,7 +41,7 @@ module.exports.uploadProduct = async ctx => {
             let parsedJSON = ctx.body = await UploadService.xml2json(file);
             parsedJSON = [prepareProductForStoring(parsedJSON.node)];
             await product.insert(parsedJSON);
-            ctx.body = parsedJSON;
+            ctx.body = {success: true};
             ctx.status = 201;
         }
         catch (err) {
@@ -64,6 +64,7 @@ function prepareKnowledgeForStoring(mo) {
         prepareKnowledgeForStoring(key);
     });
   }
+  mo.createdAt = new Date();
   return mo;
 }
 
@@ -80,5 +81,6 @@ function prepareProductForStoring(mo) {
             prepareProductForStoring(key);
         });
     }
+    mo.createdAt = new Date();
     return mo;
 }

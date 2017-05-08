@@ -47,6 +47,24 @@ module.exports.getSingleKnowledge = async ctx => {
     }
 };
 
+module.exports.updateKnowledge = async ctx => {
+    try {
+        // console.log(ctx.request.fields);
+        ctx.body = await knowledge.findOneAndUpdate({"_id": ctx.params.id}, {
+            "name": ctx.request.fields.name,
+            "children": ctx.request.fields.children,
+            "uuid": ctx.request.fields.uuid,
+            "createdAt": ctx.request.fields.createdAt,
+            "updatedAt": new Date()
+        });
+        ctx.status = 200;
+    }
+    catch (err) {
+        ctx.throw(404, err)
+    }
+};
+
+
 module.exports.deleteKnowledge = async ctx => {
     try {
         ctx.body = "Successfully deleted:\n"

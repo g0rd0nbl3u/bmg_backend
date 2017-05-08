@@ -18,7 +18,7 @@ const db = module.exports.db = require('monk')('localhost/bmg');
 const upload_api = require('./app/api/upload_api');
 const block_manage_api = require('./app/api/block_manage_api');
 const knowledge_manage_api = require('./app/api/knowledge_manage_api');
-const product_manage_api = require('./app/api/product_management_api');
+const product_manage_api = require('./app/api/product_manage_api');
 
 // Setup app's middleware
 app
@@ -47,10 +47,12 @@ router
     .get('knowledge_manage.getAll', '/knowledge/getAll', knowledge_manage_api.getAllKnowledge)
     .get('knowledge_manage.getIds', '/knowledge/getIds', knowledge_manage_api.getKnowledgeIds)
     .get('knowledge_manage.get', '/knowledge/get/:id', knowledge_manage_api.getSingleKnowledge)
+    .put('knowledge_manage.update', '/knowledge/update/:id', knowledge_manage_api.updateKnowledge)
     .del('knowledge_manage.delete', '/knowledge/delete/:id', knowledge_manage_api.deleteKnowledge)
     .get('product_manage.getAll', '/product/getAll', product_manage_api.getAllProducts)
     .get('product_manage.getIds', '/product/getIds', product_manage_api.getProductIds)
     .get('product_manage.get', '/product/get/:id', product_manage_api.getSingleProduct)
+    .put('product_manage.update', '/product/update/:id', product_manage_api.updateProduct)
     .del('product_manage.delete', '/product/delete/:id', product_manage_api.deleteProduct)
     .post('block_manage.add', '/block/add', block_manage_api.addBlock)
     .get('block_manage.get', '/block/get/:id', block_manage_api.getBlock)

@@ -47,6 +47,29 @@ module.exports.getSingleProduct = async ctx => {
     }
 };
 
+/**
+ * PUT-Method for updating a certain product via id
+ * @param ctx
+ * @returns {Promise.<void>}
+ */
+module.exports.updateProduct = async ctx => {
+    try {
+        // console.log(ctx.request.fields);
+        ctx.body = await product.findOneAndUpdate({"_id": ctx.params.id}, {
+            "key": ctx.request.fields.key,
+            "value": ctx.request.fields.value,
+            "children": ctx.request.fields.children,
+            "uuid": ctx.request.fields.uuid,
+            "createdAt": ctx.request.fields.createdAt,
+            "updatedAt": new Date()
+        });
+        ctx.status = 200;
+    }
+    catch (err) {
+        ctx.throw(404, err)
+    }
+};
+
 module.exports.deleteProduct = async ctx => {
     try {
         ctx.body = "Successfully deleted:\n"
