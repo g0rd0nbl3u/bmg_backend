@@ -56,6 +56,7 @@ router
     .del('product_manage.delete', '/product/delete/:id', product_manage_api.deleteProduct)
     .post('block_manage.add', '/block/add', block_manage_api.addBlock)
     .get('block_manage.get', '/block/get/:id', block_manage_api.getBlock)
+    .get('block_manage.getBlocksForKnowledge', '/block/getForKnowledge/:id', block_manage_api.getBlocksForKnowledge)
     .put('block_manage.update', '/block/update/:id', block_manage_api.updateBlock)
     .del('block_manage.delete', '/block/delete/:id', block_manage_api.deleteBlock)
     .get('block_manage.getAll', '/block/getAll', block_manage_api.getAllBlocks);
