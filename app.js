@@ -19,6 +19,7 @@ const upload_api = require('./app/api/upload_api');
 const block_manage_api = require('./app/api/block_manage_api');
 const knowledge_manage_api = require('./app/api/knowledge_manage_api');
 const product_manage_api = require('./app/api/product_manage_api');
+const cf_config_manage_api = require('./app/api/cf_config_manage_api');
 
 // Setup app's middleware
 app
@@ -59,7 +60,12 @@ router
     .get('block_manage.getBlocksForKnowledge', '/block/getForKnowledge/:id', block_manage_api.getBlocksForKnowledge)
     .put('block_manage.update', '/block/update/:id', block_manage_api.updateBlock)
     .del('block_manage.delete', '/block/delete/:id', block_manage_api.deleteBlock)
-    .get('block_manage.getAll', '/block/getAll', block_manage_api.getAllBlocks);
+    .get('block_manage.getAll', '/block/getAll', block_manage_api.getAllBlocks)
+    .get('cf_config_manage.getAllConfigs', '/cf_config/getAll', cf_config_manage_api.getAllConfigs)
+    .get('cf_config_manage.getConfig', '/cf_config/get/:id', cf_config_manage_api.getConfig)
+    .post('cf_config_manage.addConfig', '/cf_config/add', cf_config_manage_api.addConfig)
+    .put('cf_config_manage.updateConfig', '/cf_config/update/:id', cf_config_manage_api.updateConfig)
+    .del('cf_config_manage.deleteConfig', '/cf_config/delete/:id', cf_config_manage_api.deleteConfig);
 
 app.listen(process.env.PORT || 3000);
 

@@ -68,7 +68,9 @@ module.exports.updateBlock = async ctx => {
             'group': ctx.request.fields.group,
             'category': ctx.request.fields.category,
             'updatedAt': new Date(),
-            'knowledgeId': ctx.request.fields.knowledgeId
+            'knowledgeId': ctx.request.fields.knowledgeId,
+            'knowledgeholder': ctx.request.fields.knowledgeholder,
+            'productholder': ctx.request.fields.productholder
         });
         ctx.status = 200;
     }
