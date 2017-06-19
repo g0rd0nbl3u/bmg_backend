@@ -12,7 +12,7 @@ const app = module.exports.app = new koa();
 
 // Setup
 const router = module.exports.router = require('koa-router')();
-const db = module.exports.db = require('monk')('localhost/bmg');
+const db = module.exports.db = require('monk')(process.env.DB_HOST + '/bmg');
 
 // Load api
 const upload_api = require('./app/api/upload_api');
