@@ -37,8 +37,8 @@
     "nyc": "^8.3.1"
   },
   "scripts": {
-    "test": "node_modules/nyc/bin/nyc.js node --harmony_async_await node_modules/jasmine/bin/jasmine.js",
-    "debug": "node --harmony_async_await debug app.js",
-    "start": "node --harmony_async_await --harmony app.js"
+    "test": "node_modules/nyc/bin/nyc.js node node_modules/jasmine/bin/jasmine.js",
+    "debug": "node debug app.js",
+    "start": "node app.js"
   }
 }
